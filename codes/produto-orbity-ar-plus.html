@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbity AR Plus</title>
+    <style>
+                :root {
+            --primary: #0070f3;
+            --secondary: #6c63ff;
+            --dark: #050505;
+            --light: #ffffff;
+            --gray: #f7f7f7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        
+        .logo span {
+            color: var(--light);
+            -webkit-text-fill-color: var(--light);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 16px;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--light);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 112, 243, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            width: 50%;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.2) 0%, rgba(0, 112, 243, 0.1) 50%, rgba(5, 5, 5, 0) 70%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-image img {
+            width: 65%;
+            height: auto;
+            object-fit: contain;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .highlight {
+            color: var(--primary);
+        }
+        
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background-color: #080808;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .about-text {
+            width: 50%;
+            padding-right: 40px;
+        }
+        
+        .about-text h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        .about-text p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+        
+        .about-image {
+            width: 45%;
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 100px 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .product-card {
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(45deg, rgba(0, 112, 243, 0.05), rgba(108, 99, 255, 0.05));
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .product-info p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        /* Vision Section */
+        .vision {
+            padding: 100px 0;
+            background-color: #080808;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vision-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url('/api/placeholder/1000/1000');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--dark);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -13px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -13px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .timeline-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .timeline-content p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+        }
+        
+        .contact-content {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            width: 40%;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+        
+        .contact-info .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .info-item i {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 112, 243, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .contact-form {
+            width: 55%;
+            background: rgba(15, 15, 15, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: none;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 50px 0 20px;
+            background-color: #030303;
+            position: relative;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            width: 23%;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-bottom p {
+            color: #777777;
+            font-size: 14px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        
+        /* Responsive */
+        @media screen and (max-width: 991px) {
+            .hero-content {
+                width: 60%;
+            }
+            
+            .hero h1 {
+                font-size: 46px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-column {
+                width: 48%;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hero-content {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .hero-image {
+                display: none;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text, .about-image {
+                width: 100%;
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+            
+            .contact-content {
+                flex-direction: column;
+            }
+            
+            .contact-info, .contact-form {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-column {
+                width: 100%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        /* Special Effects */
+        .glow {
+            box-shadow: 0 0 15px var(--primary);
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Product image style adjustments */
+        #phonex-img {
+            transform: perspective(500px) rotateY(15deg);
+            transition: transform 0.5s ease;
+        }
+        
+        #phonex-img:hover {
+            transform: perspective(500px) rotateY(0deg);
+        }
+        
+        #arglass-img {
+            transition: transform 0.5s ease;
+        }
+        
+        #arglass-img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER igual ao index.html -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NEXUS<span>TECH</span></div>
+                <ul class="nav-links">
+                    <li><a href="main.html">Início</a></li>
+                    <li><a href="main.html#about">Sobre</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="main.html#vision">Visão</a></li>
+                    <li><a href="main.html#contact">Contato</a></li>
+                </ul>
+                <a href="main.html#contact" class="btn">Saiba Mais</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="about-product" style="padding-top:120px; min-height:80vh;">
+        <div class="container fade-in">
+            <h2>Orbity AR Plus</h2>
+            <p style="margin-top:20px; color:#ccc;">
+                Orbity AR Plus, o melhor óculos de realidade aumentada do mundo, com design futurista e tecnologia de ponta.
+                Com ele, você pode explorar um novo universo de possibilidades, desde experiências imersivas em realidade aumentada até interações inovadoras com o ambiente ao seu redor.
+                O Orbity AR Plus é equipado com lentes de alta resolução e um processador de última geração, garantindo uma experiência fluida e realista.
+                Ao adquirir o Orbity AR Plus, você ganha acesso a um ano de serviços premium da Nexus, incluindo aplicativos exclusivos de realidade aumentada e suporte técnico 24/7.
+                Ele é perfeito para quem busca o melhor em inovação e conectividade. O Orbity AR Plus redefine a forma como você interage com o mundo, oferecendo recursos incríveis e um design ergonômico e elegante.
+                Com sensores avançados, integração com a IA Nyra e compatibilidade com os melhores aplicativos da Nexus, o Orbity AR Plus é o dispositivo mais avançado do mercado.
+                E com o sistema operacional Nexus OS, você terá acesso a uma experiência única e intuitiva, além de descontos exclusivos nos serviços da Nexus.
+                O Orbity AR Plus é o óculos perfeito para quem quer transformar o cotidiano com o melhor da tecnologia e inovação.
+            </p>
+            <div style="text-align:center; margin-top:40px;">
+                <img src="images/oculos-ar-nexus.png" alt="Orbity AR Plus" style="max-width:400px;">
+            </div>
+            <p style="margin-top:20px; color:#ccc;">
+                <h3>Especificações Técnicas</h3>
+                <ul style="margin-top: 10px; color: #ccc; line-height: 1.6;">
+                    <li><strong>Processador:</strong> Nexus Quantum Core X2</li>
+                    <li><strong>Memória RAM:</strong> 8GB LPDDR5</li>
+                    <li><strong>Armazenamento:</strong> 256GB UFS 3.1</li>
+                    <li><strong>Lentes:</strong> Ópticas de alta resolução com 4K por olho</li>
+                    <li><strong>Campo de Visão:</strong> 120 graus</li>
+                    <li><strong>Sensores:</strong> Giroscópio, acelerômetro, sensor de proximidade, rastreamento ocular</li>
+                    <li><strong>Bateria:</strong> 10 horas de uso contínuo</li>
+                    <li><strong>Conectividade:</strong> Wi-Fi 6, Bluetooth 5.2</li>
+                    <li><strong>Sistema Operacional:</strong> Nexus OS</li>
+                </ul>
+                <h3 style="margin-top: 30px;">Curiosidades</h3>
+                <ul style="margin-top: 10px; color: #ccc; line-height: 1.6;">
+                    <li>O Orbity AR Plus foi desenvolvido em parceria com especialistas em neurociência para garantir uma experiência imersiva e confortável.</li>
+                    <li>É o primeiro dispositivo de realidade aumentada a integrar a IA Nyra, permitindo interações personalizadas e inteligentes.</li>
+                    <li>O design ergonômico foi inspirado em capacetes de astronautas, garantindo conforto mesmo após horas de uso.</li>
+                    <li>O dispositivo é compatível com mais de 500 aplicativos de realidade aumentada disponíveis na Nexus Store.</li>
+                </ul>
+                <h3 style="margin-top: 30px;">Diferenciais</h3>
+                <ul style="margin-top: 10px; color: #ccc; line-height: 1.6;">
+                    <li>Integração com o ecossistema Nexus, permitindo sincronização perfeita com outros dispositivos Nexus.</li>
+                    <li>Modo de baixa latência para jogos e experiências interativas em tempo real.</li>
+                    <li>Atualizações de software regulares para garantir o melhor desempenho e novos recursos.</li>
+                    <li>Compatibilidade com óculos de grau, graças ao design ajustável das lentes.</li>
+                </ul>
+                <h3 style="margin-top: 30px;">O que está na caixa?</h3>
+                <ul style="margin-top: 10px; color: #ccc; line-height: 1.6;">
+                    <li>1x Orbity AR Plus</li>
+                    <li>1x Estojo de transporte premium</li>
+                    <li>1x Cabo de carregamento USB-C</li>
+                    <li>1x Manual do usuário</li>
+                    <li>1x Pano de limpeza para lentes</li>
+                </ul>
+            </p>
+        </div>
+    </section>
+
+    <!-- FOOTER igual ao index.html -->
+    <footer>
+      <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Nexus</h3>
+                    <p>Transformando o futuro através da tecnologia revolucionária.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="main.html">Início</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                        <li><a href="#products">Produtos</a></li>
+                        <li><a href="#vision">Visão</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Produtos</h3>
+                    <ul>
+                        <li><a href="produto-nexus-phone-x.html">Orbity Phone X EX</a></li>
+                        <li><a href="produto-orbity-ar-plus.html">Orbity AR Plus</a></li>
+                        <li><a href="#">Nexus AI Assistant</a></li>
+                        <li><a href="#">Apps Nexus</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><a href="#">contato@nexustech.com</a></li>
+                        <li><a href="#">Suporte</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                        <li><a href="#">Imprensa</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nexus Technologies. Todos os direitos reservados.</p>
+            </div>
+      </div>
+    </footer>
+
+    <script>
+    // Seu JS de fade-in e etc
+    document.addEventListener('DOMContentLoaded', function() {
+            // Função para substituir os placeholders por suas imagens reais
+            // Array para armazenar as URLs das imagens
+            const imageUrls = [
+                '/api/placeholder/500/500', // Hero phone
+                '/api/placeholder/200/200', // Phone X na seção de produtos
+                '/api/placeholder/200/200', // AR Glass na seção de produtos
+                '/api/placeholder/200/200'  // AI Assistant na seção de produtos
+            ];
+            
+            // Função para atualizar imagens se disponíveis
+            function updateImages() {
+                // Aqui você adicionaria o código para atualizar as imagens com as URLs reais quando hospedar o site
+                // Este é apenas um placeholder para a lógica de substituição de imagens
+                console.log("Imagens carregadas!");
+            }
+            
+            // Inicializar animações de scroll
+            const fades = document.querySelectorAll('.fade-in');
+            
+            function checkFade() {
+                fades.forEach(fade => {
+                    const fadeTop = fade.getBoundingClientRect().top;
+                    const fadePoint = window.innerHeight / 1.2;
+                    
+                    if(fadeTop < fadePoint) {
+                        fade.style.opacity = 1;
+                        fade.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Set initial state
+            fades.forEach(fade => {
+                fade.style.opacity = 0;
+                fade.style.transform = 'translateY(20px)';
+                fade.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            });
+            
+            // Check on load
+            checkFade();
+            updateImages();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkFade);
+    });
+    </script>
+</body>
+</html>
